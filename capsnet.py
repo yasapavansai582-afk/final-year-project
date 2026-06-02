@@ -206,7 +206,7 @@ class CapsNetClassifier(BaseEstimator, ClassifierMixin):
     def save(self, path="models/saved/capsnet.pkl"):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         joblib.dump(self, path)
-        print(f"  CapsNet saved → {path}")
+        print(f"  CapsNet saved -> {path}")
 
     @staticmethod
     def load(path="models/saved/capsnet.pkl"):

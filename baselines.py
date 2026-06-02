@@ -72,7 +72,7 @@ class VEQMClassifier(BaseEstimator, ClassifierMixin):
     def save(self, path="models/saved/veqm.pkl"):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         joblib.dump(self, path)
-        print(f"  VEQM saved → {path}")
+        print(f"  VEQM saved -> {path}")
 
     @staticmethod
     def load(path="models/saved/veqm.pkl"):
@@ -137,7 +137,7 @@ class MPTCPRPClassifier(BaseEstimator, ClassifierMixin):
     def save(self, path="models/saved/mptcprp.pkl"):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         joblib.dump(self, path)
-        print(f"  MPTC-PRP saved → {path}")
+        print(f"  MPTC-PRP saved -> {path}")
 
     @staticmethod
     def load(path="models/saved/mptcprp.pkl"):
@@ -200,7 +200,7 @@ class MWISClassifier(BaseEstimator, ClassifierMixin):
     def save(self, path="models/saved/mwis.pkl"):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         joblib.dump(self, path)
-        print(f"  MWIS saved → {path}")
+        print(f"  MWIS saved -> {path}")
 
     @staticmethod
     def load(path="models/saved/mwis.pkl"):
@@ -373,7 +373,7 @@ class CONVBiLSTMClassifier(BaseEstimator, ClassifierMixin):
     def save(self, path="models/saved/conv_bilstm.pkl"):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         joblib.dump(self, path)
-        print(f"  CONV-BI-LSTM saved → {path}")
+        print(f"  CONV-BI-LSTM saved -> {path}")
 
     @staticmethod
     def load(path="models/saved/conv_bilstm.pkl"):
