@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TCSP-PC Dashboard — Smart City Pollution Control</title>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────── -->
+<header class="topbar">
+  <div class="topbar-left">
+    <span class="logo">🌿 TCSP-PC</span>
+    <span class="subtitle">Traffic Control System for Pollution Control</span>
+  </div>
+  <div class="topbar-right">
+    <span id="clock"></span>
+    <span class="badge" id="api-badge">Connecting…</span>
+  </div>
+</header>
+
+<!-- ── Main Layout ───────────────────────────────────────── -->
+<main class="grid-main">
+
+  <!-- KPI Cards -->
+  <section class="kpi-row">
+    <div class="card kpi" id="kpi-eco">
+      <div class="kpi-icon">✅</div>
+      <div>
+        <div class="kpi-value" id="kpi-eco-val">—</div>
+        <div class="kpi-label">Eco-friendly</div>
+      </div>
+    </div>
+    <div class="card kpi" id="kpi-poll">
+      <div class="kpi-icon">⚠️</div>
+      <div>
+        <div class="kpi-value" id="kpi-poll-val">—</div>
+        <div class="kpi-label">Polluting</div>
+      </div>
+    </div>
+    <div class="card kpi">
+      <div class="kpi-icon">📡</div>
+      <div>
+        <div class="kpi-value" id="kpi-density-val">—</div>
+        <div class="kpi-label">Vehicles/km</div>
+      </div>
+    </div>
+    <div class="card kpi">
+      <div class="kpi-icon">💨</div>
+      <div>
+        <div class="kpi-value" id="kpi-emission-val">—</div>
+        <div class="kpi-label">Emission (g/km)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Feed + Recommendations -->
+  <section class="two-col">
+    <!-- Real-time prediction panel -->
+    <div class="card panel-realtime">
+      <h2>🔴 Live IoT Feed
+        <select id="city-select" class="city-select">
+          <option>New York</option>
+          <option>Los Angeles</option>
+          <option>Chicago</option>
+          <option>Houston</option>
+          <option>Detroit</option>
+          <option>San Francisco</option>
+          <option>Boston</option>
+          <option>Rural Midwest</option>
+        </select>
+        <button id="btn-refresh" class="btn-small">↻ Refresh</button>
+        <label class="toggle-label">
+          <input type="checkbox" id="auto-refresh"/> Auto (5s)
+        </label>
+      </h2>
+
+      <div id="sensor-card" class="sensor-card">
+        <p class="placeholder">Click Refresh or enable Auto to fetch a live reading.</p>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="card panel-recs">
+      <h2>📋 Pollution Control Recommendations</h2>
+      <ul id="rec-list" class="rec-list">
+        <li class="placeholder">Waiting for live data…</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Manual prediction form -->
+  <section class="card panel-form">
+    <h2>🔬 Manual Vehicle Assessment</h2>
+    <form id="predict-form" class="predict-form">
+      <div class="form-row">
+        <label>Vehicle Type
+          <select name="vehicle_type">
+            <option value="sedan">Sedan</option>
+            <option value="suv">SUV</option>
+            <option value="hybrid">Hybrid</option>
+            <option value="truck">Truck</option>
+            <option value="bus">Bus</option>
+            <option value="old_diesel">Old Diesel</option>
+          </select>
+        </label>
+        <label>City
+          <select name="city">
+            <option>New York</option><option>Los Angeles</option>
+            <option>Chicago</option><option>Houston</option>
+            <option>Detroit</option><option>San Francisco</option>
+            <option>Boston</option><option>Rural Midwest</option>
+          </select>
+        </label>
+        <label>Emission Rate (g/km)
+          <input type="number" name="emission_rate" value="22" step="0.5" min="1" max="100"/>
+        </label>
+        <label>Vehicle Density (/km)
+          <input type="number" name="vehicle_density" value="45" min="1" max="200"/>
+        </label>
+        <label>Distance (km)
+          <input type="number" name="distance_km" value="20" min="1" max="100"/>
+        </label>
+        <label>Travel Time (min)
+          <input type="number" name="travel_time_min" value="3.5" step="0.1" min="0.5"/>
+        </label>
+        <label>Hour (0–23)
+          <input type="number" name="hour" value="8" min="0" max="23"/>
+        </label>
+        <label>Model
+          <select name="model_name">
+            <option value="capsnet">TCSP-PC (CapsNet)</option>
+            <option value="veqm">VEQM</option>
+            <option value="mptcprp">MPTC-PRP</option>
+            <option value="mwis">MWIS</option>
+            <option value="convbilstm">CONV-BI-LSTM</option>
+          </select>
+        </label>
+      </div>
+      <button type="submit" class="btn-primary">Classify Vehicle</button>
+    </form>
+    <div id="form-result"></div>
+  </section>
+
+  <!-- Model metrics table -->
+  <section class="card panel-metrics">
+    <h2>📊 Model Performance (Test Set)
+      <button id="btn-load-metrics" class="btn-small">Load</button>
+    </h2>
+    <div id="metrics-table-wrap">
+      <p class="placeholder">Click Load to fetch metrics (requires evaluate.py to have been run).</p>
+    </div>
+  </section>
+
+  <!-- Emission trend chart -->
+  <section class="card panel-chart">
+    <h2>📈 Live Emission Trend</h2>
+    <canvas id="trendChart" height="120"></canvas>
+  </section>
+
+</main>
+
+<footer class="footer">
+  TCSP-PC — Final Year Project &nbsp;|&nbsp;
+  Based on: Ali Mohd Ali et al., IEEE Access 2025 &nbsp;|&nbsp;
+  <a href="/api/status" target="_blank">API Status</a>
+</footer>
+
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>
