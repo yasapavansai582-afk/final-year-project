@@ -1,0 +1,439 @@
+/* ============================================================
+   TCSP-PC Dashboard — style.css
+   Smart City Pollution Control — Final Year Project
+   ============================================================ */
+
+/* ── Reset & Base ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0f1117;
+  --bg2:       #1a1d27;
+  --bg3:       #22263a;
+  --border:    #2e3248;
+  --accent:    #4ade80;   /* green — eco-friendly */
+  --danger:    #f87171;   /* red   — polluting    */
+  --warn:      #fbbf24;   /* amber — warning      */
+  --blue:      #60a5fa;
+  --text:      #e2e8f0;
+  --muted:     #8892a4;
+  --radius:    10px;
+  --shadow:    0 4px 24px rgba(0,0,0,.45);
+  --font:      'Segoe UI', system-ui, sans-serif;
+}
+
+html { font-size: 15px; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Top bar ──────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 1.5rem;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-left { display: flex; align-items: center; gap: .75rem; }
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -.5px;
+  color: var(--accent);
+}
+
+.subtitle {
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: .85rem;
+  color: var(--muted);
+}
+
+.badge {
+  padding: .2rem .65rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: background .3s, color .3s;
+}
+.badge.ok    { background: rgba(74,222,128,.15); color: var(--accent); border-color: var(--accent); }
+.badge.error { background: rgba(248,113,113,.15); color: var(--danger); border-color: var(--danger); }
+
+/* ── Main grid ────────────────────────────────────────── */
+main.grid-main {
+  flex: 1;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── Cards ────────────────────────────────────────────── */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.card h2 {
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: .85rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+/* ── KPI row ──────────────────────────────────────────── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.kpi {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  padding: .85rem 1.1rem;
+}
+
+.kpi-icon { font-size: 1.6rem; line-height: 1; }
+
+.kpi-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.kpi-label {
+  font-size: .72rem;
+  color: var(--muted);
+  margin-top: .15rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+#kpi-eco  .kpi-value { color: var(--accent); }
+#kpi-poll .kpi-value { color: var(--danger); }
+
+/* ── Two-column section ───────────────────────────────── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 860px) {
+  .two-col { grid-template-columns: 1fr; }
+}
+
+/* ── Sensor card ──────────────────────────────────────── */
+.sensor-card {
+  font-size: .88rem;
+}
+
+.sensor-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sensor-card td {
+  padding: .3rem .4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sensor-card td:first-child {
+  color: var(--muted);
+  width: 55%;
+}
+
+.sensor-card td:last-child {
+  font-weight: 600;
+  text-align: right;
+}
+
+.status-eco      { color: var(--accent); }
+.status-polluting{ color: var(--danger); }
+
+.prob-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: .6rem;
+}
+
+.prob-bar-bg {
+  flex: 1;
+  height: 7px;
+  background: var(--bg3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.prob-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width .5s ease;
+}
+
+.prob-bar-label {
+  font-size: .8rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ── Recommendations list ─────────────────────────────── */
+.rec-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.rec-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  font-size: .87rem;
+  padding: .45rem .6rem;
+  border-radius: 6px;
+  background: var(--bg3);
+  border-left: 3px solid var(--border);
+  line-height: 1.4;
+}
+
+.rec-list li.rec-urgent { border-left-color: var(--danger); }
+.rec-list li.rec-warn   { border-left-color: var(--warn);   }
+.rec-list li.rec-ok     { border-left-color: var(--accent); }
+
+.rec-list li .rec-icon { flex-shrink: 0; }
+
+.placeholder {
+  color: var(--muted);
+  font-size: .85rem;
+  font-style: italic;
+}
+
+/* ── Manual predict form ──────────────────────────────── */
+.predict-form {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: .65rem;
+}
+
+.predict-form label {
+  font-size: .8rem;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.predict-form input,
+.predict-form select {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: .4rem .55rem;
+  font-size: .88rem;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.predict-form input:focus,
+.predict-form select:focus {
+  border-color: var(--blue);
+}
+
+/* ── Buttons ──────────────────────────────────────────── */
+.btn-primary {
+  align-self: flex-start;
+  background: var(--accent);
+  color: #0f1117;
+  border: none;
+  border-radius: 7px;
+  padding: .5rem 1.25rem;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity .2s, transform .1s;
+}
+.btn-primary:hover  { opacity: .85; }
+.btn-primary:active { transform: scale(.97); }
+
+.btn-small {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: .2rem .65rem;
+  font-size: .78rem;
+  cursor: pointer;
+  transition: background .2s;
+}
+.btn-small:hover { background: var(--border); }
+
+.city-select {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: .2rem .5rem;
+  font-size: .8rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  font-size: .8rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+/* ── Form result ──────────────────────────────────────── */
+#form-result {
+  margin-top: .75rem;
+}
+
+.result-card {
+  background: var(--bg3);
+  border-radius: 8px;
+  padding: .75rem 1rem;
+  font-size: .87rem;
+  border-left: 4px solid var(--blue);
+}
+.result-card.eco      { border-left-color: var(--accent); }
+.result-card.polluting{ border-left-color: var(--danger); }
+
+.result-card .result-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: .3rem;
+}
+
+.result-card .result-label.eco       { color: var(--accent); }
+.result-card .result-label.polluting { color: var(--danger); }
+
+.result-detail {
+  color: var(--muted);
+  font-size: .8rem;
+  margin-bottom: .5rem;
+}
+
+.result-recs { margin-top: .5rem; }
+.result-recs ul { list-style: disc; padding-left: 1.1rem; }
+.result-recs li { margin-bottom: .25rem; line-height: 1.4; }
+
+/* ── Metrics table ────────────────────────────────────── */
+#metrics-table-wrap {
+  overflow-x: auto;
+}
+
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .83rem;
+}
+
+.metrics-table th {
+  text-align: right;
+  padding: .45rem .6rem;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.metrics-table th:first-child { text-align: left; }
+
+.metrics-table td {
+  text-align: right;
+  padding: .4rem .6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.metrics-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+}
+
+.metrics-table tr:hover td { background: var(--bg3); }
+
+.metrics-table tr.best-row td { color: var(--accent); }
+
+/* ── Trend chart ──────────────────────────────────────── */
+.panel-chart canvas { width: 100% !important; }
+
+/* ── Footer ───────────────────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: .75rem;
+  font-size: .75rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+/* ── Spinner ──────────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3e4460; }
