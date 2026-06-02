@@ -66,7 +66,9 @@ class CorrelatedCapsuleLayer:
         batch = u.shape[0]
         # Prediction vectors: u_hat[b, i, j, :] = W[i,j] @ u[b,i]
         # Shape: (batch, in_capsules, out_capsules, out_dim)
-        u_hat = np.einsum('bij,ijkl->bikl', u, self.W)  # simplified
+        # u: (batch, in_caps, in_dim), W: (in_caps, out_caps, in_dim, out_dim)
+        # u_hat: (batch, in_caps, out_caps, out_dim)
+        u_hat = np.einsum('bil,ijlk->bijk', u, self.W)
 
         # Dynamic routing
         b_ij = np.zeros((batch, self.in_capsules, self.out_capsules))
